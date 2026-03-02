@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "learn typescript",
+    "description": "Understand basics of typescript",
+    "category": "coding",
+    "isDone": false,
+    "createdAt": "2023-01-20T00:00:00.000Z",
+    "updatedAt": null,
+    "deletedAt": null
+  },
+  {
+    "id": 2,
+    "title": "school project",
+    "description": "Finish project and submit to school by end of the week",
+    "category": "school",
+    "isDone": false,
+    "createdAt": "2023-01-20T10:00:00.000Z",
+    "updatedAt": "2026-03-02T05:00:05.557Z",
+    "deletedAt": null
+  },
+  {
+    "id": 3,
+    "title": "dinner",
+    "description": "dinner with family",
+    "category": "personal",
+    "isDone": false,
+    "createdAt": "2026-03-02T04:43:20.761Z",
+    "updatedAt": null,
+    "deletedAt": "2026-03-02T05:06:36.806Z"
+  }
+]
