@@ -3,7 +3,7 @@ import path from "path";
 
 const todosPath = path?.join(__dirname, "../db/todos.json");
 
-export interface Todo {
+interface Todo {
     id: number;
     title: string;
     description: string;
@@ -16,6 +16,10 @@ export interface Todo {
 
 const readTodos = () : Todo[] => {
     try {
+        if (!fs.existsSync(todosPath)) {
+            fs.writeFileSync(todosPath, JSON.stringify([], null, 2));
+            return [];
+        }
         const data = fs.readFileSync(todosPath, "utf-8");
         return JSON.parse(data);
     } catch (error) {
@@ -31,4 +35,4 @@ const writeTodos = (todos: Todo[]) => {
     }
 };
 
-export { readTodos, writeTodos };
+export { readTodos, writeTodos, Todo };
