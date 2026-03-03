@@ -7,11 +7,54 @@ const todosPath = path?.join(__dirname, "../db/todos.json");
 export const todosController = {
   getAllTodo(req: Request, res: Response) {
     try {
-      const todos = readTodos().filter((todo) => !todo.deletedAt);
+      const { category, search, page = "1", limit = "5" } = req.query;
+      const currentPage = Number(page);
+      const perPage = Number(limit);
+
+      if (isNaN(currentPage) || isNaN(perPage)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid pagination params",
+        });
+      }
+
+      let todos = readTodos().filter((todo: Todo) => !todo.deletedAt);
+
+      // filter by
+      if (category && typeof category === "string") {
+        todos = todos.filter(
+          (todo: Todo) =>
+            todo.category.toLowerCase() === category.toLowerCase(),
+        );
+      }
+
+      // search by
+      if (search && typeof search === "string") {
+        const keyword = search.toLowerCase();
+        todos = todos.filter(
+          (todo: Todo) =>
+            todo.title.toLowerCase().includes(keyword) ||
+            todo.description.toLowerCase().includes(keyword),
+        );
+      }
+
+      // pagination
+      const totalData = todos.length;
+      const totalPages = Math.ceil(totalData / perPage);
+      const startIndex = (currentPage - 1) * perPage;
+      const endIndex = startIndex + perPage;
+      const Paginatedtodos = todos.slice(startIndex, endIndex);
+
       res.status(200).json({
         success: true,
         message: "Get todos successfully",
-        data: todos,
+        meta : {
+          totalData,
+          totalPages,
+          currentPage,
+          perPage
+        },
+        data: Paginatedtodos,
       });
     } catch (error) {
       res.status(500).json({
